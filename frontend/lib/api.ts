@@ -1,0 +1,100 @@
+import axios from 'axios';
+import { ResumeData } from './store';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
+export const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Attach JWT token automatically
+apiClient.interceptors.request.use((config) => {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('nestjs_jwt');
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  name: string;
+  picture?: string;
+}
+
+export interface SyncResponse {
+  access_token: string;
+  user: UserProfile;
+}
+
+export interface ResumeServerResponse {
+  id: string;
+  userId: string;
+  templateId: string;
+  title: string;
+  data: ResumeData;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const api = {
+  // Auth sync
+  async syncUser(googleId: string, email: string, name: string, picture?: string): Promise<SyncResponse> {
+    const { data } = await apiClient.post<SyncResponse>('/auth/sync', {
+      googleId,
+      email,
+      name,
+      picture,
+    });
+    // Save token locally
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nestjs_jwt', data.access_token);
+      localStorage.setItem('nestjs_user', JSON.stringify(data.user));
+    }
+    return data;
+  },
+
+  // Logout clear
+  logout() {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('nestjs_jwt');
+      localStorage.removeItem('nestjs_user');
+    }
+  },
+
+  // Resumes API
+  async getResumes(): Promise<ResumeServerResponse[]> {
+    const { data } = await apiClient.get<ResumeServerResponse[]>('/resumes');
+    return data;
+  },
+
+  async getResume(id: string): Promise<ResumeServerResponse> {
+    const { data } = await apiClient.get<ResumeServerResponse>(`/resumes/${id}`);
+    return data;
+  },
+
+  async createResume(templateId: string, title: string, resumeData: ResumeData): Promise<ResumeServerResponse> {
+    const { data } = await apiClient.post<ResumeServerResponse>('/resumes', {
+      templateId,
+      title,
+      data: resumeData,
+    });
+    return data;
+  },
+
+  async updateResume(id: string, update: { templateId?: string; title?: string; data?: ResumeData }): Promise<ResumeServerResponse> {
+    const { data } = await apiClient.patch<ResumeServerResponse>(`/resumes/${id}`, update);
+    return data;
+  },
+
+  async deleteResume(id: string): Promise<{ message: string }> {
+    const { data } = await apiClient.delete<{ message: string }>(`/resumes/${id}`);
+    return data;
+  },
+};

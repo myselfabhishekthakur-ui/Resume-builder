@@ -1,0 +1,35 @@
+.page { width: 794px; min-height: 1123px; background: #fff; font-family: 'Inter', sans-serif; }
+.topBar { height: 6px; background: linear-gradient(90deg, #06b6d4, #0ea5e9, #6366f1); }
+.layout { display: flex; }
+.sidebar { width: 230px; background: #f0f9ff; padding: 28px 20px; border-right: 1px solid #e0f2fe; }
+.profileBlock { text-align: center; margin-bottom: 24px; }
+.avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #06b6d4, #0ea5e9); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; color: white; margin: 0 auto 12px; }
+.name { font-size: 1rem; font-weight: 700; color: #0c4a6e; line-height: 1.2; }
+.title { font-size: 0.72rem; color: #06b6d4; font-weight: 600; margin-top: 4px; }
+.sideSection { margin-bottom: 20px; }
+.sideTitle { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; color: #06b6d4; margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid #bae6fd; padding-bottom: 4px; }
+.info { font-size: 0.7rem; color: #334155; margin-bottom: 6px; word-break: break-all; }
+.skillRow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.skillName { font-size: 0.72rem; color: #1e3a5f; font-weight: 500; }
+.skillLevel { font-size: 0.62rem; color: #06b6d4; font-weight: 600; }
+.certBlock { margin-bottom: 8px; }
+.certName { font-size: 0.7rem; font-weight: 600; color: #1e3a5f; }
+.certIssuer { font-size: 0.62rem; color: #64748b; }
+.main { flex: 1; padding: 28px 32px; }
+.section { margin-bottom: 22px; }
+.sectionTitle { font-size: 0.85rem; font-weight: 700; color: #0c4a6e; border-bottom: 2px solid #06b6d4; padding-bottom: 6px; margin-bottom: 14px; }
+.summary { font-size: 0.8rem; line-height: 1.7; color: #444; }
+.entry { display: flex; gap: 12px; margin-bottom: 14px; }
+.entryLeft { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #06b6d4; flex-shrink: 0; }
+.entryRight { flex: 1; }
+.entryTop { display: flex; justify-content: space-between; align-items: baseline; }
+.entryTop strong { font-size: 0.82rem; color: #1e3a5f; }
+.date { font-size: 0.68rem; color: #888; }
+.company { font-size: 0.75rem; color: #06b6d4; margin-top: 2px; font-weight: 500; }
+.desc { font-size: 0.75rem; line-height: 1.6; color: #555; margin-top: 4px; }
+.desc p { margin-bottom: 2px; }
+.projCard { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+.projName { font-size: 0.82rem; font-weight: 700; color: #0c4a6e; margin-bottom: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.chip { font-size: 0.62rem; padding: 2px 6px; background: #e0f2fe; color: #0284c7; border-radius: 3px; font-weight: 600; }
