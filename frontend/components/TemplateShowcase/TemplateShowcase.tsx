@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { TEMPLATES, CATEGORIES, CATEGORY_ICONS, TemplateCategory } from '@/lib/templates';
+import LivePreview from '@/components/Editor/LivePreview';
+import { DUMMY_RESUME_DATA } from '@/lib/dummyData';
 import styles from './TemplateShowcase.module.css';
 
 export default function TemplateShowcase() {
@@ -41,13 +43,11 @@ export default function TemplateShowcase() {
             style={{ animationDelay: `${i * 0.05}s`, '--accent-color': template.color } as any}
           >
             {/* Visual Preview */}
-            <div className={styles.preview} style={{ background: `linear-gradient(135deg, ${template.color}22, ${template.accent}11)` }}>
-              <div className={styles.previewInner}>
-                <MiniResume color={template.color} accent={template.accent} />
+            <div className={styles.cardPreviewContainer}>
+              <div className={styles.cardPreviewScaler}>
+                <LivePreview templateId={template.id} dataOverride={DUMMY_RESUME_DATA} />
               </div>
-              {template.popular && (
-                <div className={styles.popularBadge}>⭐ Popular</div>
-              )}
+              <Link href={`/template-preview/${template.id}`} className={styles.cardPreviewOverlay} />
             </div>
 
             {/* Card Body */}
@@ -64,9 +64,14 @@ export default function TemplateShowcase() {
                   <span key={tag} className={styles.tag}>{tag}</span>
                 ))}
               </div>
-              <Link href={`/builder/${template.id}`} className={`btn btn-primary ${styles.useBtn}`}>
-                Use Template →
-              </Link>
+              <div className={styles.cardActions}>
+                <Link href={`/template-preview/${template.id}`} className={styles.previewBtn}>
+                  View
+                </Link>
+                <Link href={`/builder/${template.id}`} className={`btn btn-primary ${styles.useBtn}`}>
+                  Use Template →
+                </Link>
+              </div>
             </div>
           </div>
         ))}

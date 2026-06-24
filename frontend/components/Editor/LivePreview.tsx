@@ -13,12 +13,16 @@ import MarketProTemplate from '@/components/templates/MarketPro/MarketProTemplat
 import HealthCareTemplate from '@/components/templates/HealthCare/HealthCareTemplate';
 import LegalEagleTemplate from '@/components/templates/LegalEagle/LegalEagleTemplate';
 
+import { ResumeData } from '@/lib/store';
+
 interface Props {
   templateId: string;
+  dataOverride?: ResumeData;
 }
 
-export default function LivePreview({ templateId }: Props) {
-  const { data } = useResumeStore();
+export default function LivePreview({ templateId, dataOverride }: Props) {
+  const { data: storeData } = useResumeStore();
+  const data = dataOverride || storeData;
 
   const props = { data };
 

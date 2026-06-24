@@ -18,8 +18,14 @@ export class AuthService {
 
   async validateGoogleUser(data: GoogleUserData) {
     let user = await this.prisma.user.findUnique({
-      where: { email: data.email },
+      where: { googleId: data.googleId },
     });
+
+    if (!user) {
+      user = await this.prisma.user.findUnique({
+        where: { email: data.email },
+      });
+    }
 
     if (!user) {
       user = await this.prisma.user.create({
@@ -33,7 +39,7 @@ export class AuthService {
     } else {
       user = await this.prisma.user.update({
         where: { id: user.id },
-        data: { googleId: data.googleId, name: data.name, picture: data.picture },
+        data: { googleId: data.googleId, name: data.name, picture: data.picture, email: data.email },
       });
     }
 

@@ -65,7 +65,6 @@ export default function PreviewPage() {
   if (!resume) {
     return (
       <div className={styles.main}>
-        <Navbar />
         <div className="container" style={{ textAlign: 'center', marginTop: '80px' }}>
           <h2>Resume not found</h2>
           <button onClick={() => router.push('/dashboard')} className="btn btn-primary" style={{ marginTop: '20px' }}>
@@ -78,8 +77,6 @@ export default function PreviewPage() {
 
   return (
     <main className={styles.main}>
-      <Navbar />
-
       <header className={styles.header}>
         <div className="container">
           <div className={styles.headerRow}>

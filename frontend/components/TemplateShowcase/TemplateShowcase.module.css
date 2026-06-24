@@ -45,25 +45,40 @@
   animation: fadeUp 0.4s ease both;
 }
 
-.card:hover .preview {
+.cardPreviewContainer {
+  width: 100%;
+  height: 200px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transition: transform var(--transition-base);
+}
+
+.card:hover .cardPreviewContainer {
   transform: scale(1.02);
 }
 
-.preview {
-  height: 180px;
-  padding: 20px;
-  position: relative;
-  transition: transform var(--transition-base);
-  border-bottom: 1px solid var(--border);
+.cardPreviewScaler {
+  transform: scale(0.35); /* Smaller scale for home page grid */
+  transform-origin: top center;
+  width: 794px;
+  pointer-events: none;
 }
 
-.previewInner {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.cardPreviewOverlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  cursor: pointer;
+  z-index: 10;
+  background: transparent;
+}
+
+.cardPreviewOverlay:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .popularBadge {
@@ -132,10 +147,43 @@
   color: var(--text-muted);
 }
 
-.useBtn {
-  width: 100%;
-  justify-content: center;
+.cardActions {
+  display: flex;
+  gap: 8px;
   margin-top: 4px;
+}
+
+.previewBtn {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  border-radius: 9999px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.previewBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.useBtn {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  border-radius: 9999px;
+  white-space: nowrap;
 }
 
 @media (max-width: 640px) {

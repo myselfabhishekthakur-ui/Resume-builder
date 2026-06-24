@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import { TEMPLATES, CATEGORIES, TemplateCategory, CATEGORY_ICONS } from '@/lib/templates';
+import LivePreview from '@/components/Editor/LivePreview';
+import { DUMMY_RESUME_DATA } from '@/lib/dummyData';
 import styles from './templates.module.css';
 
 export default function TemplatesPage() {
@@ -49,7 +51,13 @@ export default function TemplatesPage() {
           <div className={styles.grid}>
             {filteredTemplates.map(template => (
               <div key={template.id} className={styles.card}>
-                <div className={styles.cardGlow} style={{ background: `radial-gradient(circle at 50% 0%, ${template.color}15, transparent 60%)` }} />
+                <div className={styles.cardPreviewContainer}>
+                  <div className={styles.cardPreviewScaler}>
+                    <LivePreview templateId={template.id} dataOverride={DUMMY_RESUME_DATA} />
+                  </div>
+                  <Link href={`/template-preview/${template.id}`} className={styles.cardPreviewOverlay} />
+                </div>
+                
                 <div className={styles.cardHeader} style={{ borderTop: `4px solid ${template.color}` }}>
                   <div className={styles.badgeRow}>
                     <span className={styles.categoryBadge}>{template.category}</span>
@@ -64,9 +72,14 @@ export default function TemplatesPage() {
                       <span key={tag} className={styles.tag}>#{tag}</span>
                     ))}
                   </div>
-                  <Link href={`/builder/${template.id}`} className={styles.useBtn} style={{ background: template.color }}>
-                    Use Template →
-                  </Link>
+                  <div className={styles.cardActions}>
+                    <Link href={`/template-preview/${template.id}`} className={styles.previewBtn}>
+                      View
+                    </Link>
+                    <Link href={`/builder/${template.id}`} className={styles.useBtn} style={{ background: template.color }}>
+                      Use Template →
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
