@@ -16,7 +16,7 @@ export default function ProjectsForm() {
           </div>
           <div className="form-group">
             <label className="label">Project Name *</label>
-            <input className="input" placeholder="ResumeForge" value={proj.name}
+            <input className="input" placeholder="Resume Builder" value={proj.name}
               onChange={e => updateProject(proj.id, { name: e.target.value })} />
           </div>
           <div className="form-group">

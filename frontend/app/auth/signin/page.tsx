@@ -39,7 +39,7 @@ function SignInContent() {
         gap: '8px',
         marginBottom: '28px'
       }}>
-        ⚡ <span style={{ background: 'linear-gradient(to right, #818cf8, #f472b6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>ResumeForge</span>
+        ⚡ <span style={{ background: 'linear-gradient(to right, #818cf8, #f472b6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Resume Builder</span>
       </Link>
 
       <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '8px' }}>Welcome back</h2>

@@ -27,9 +27,7 @@ export default function Home() {
               <br />in Minutes
             </h1>
             <p className={`${styles.heroDesc} animate-fade-up`} style={{ animationDelay: '0.2s' }}>
-              Choose from 12+ stunning templates crafted for every profession —
-              IT, Management, Freshers, Creative, and more. Sign in with Google
-              and land your next opportunity.
+              Choose from 12+ stunning templates crafted for every profession. Fully optimized for Applicant Tracking Systems (ATS) with our accurate keyword matching. Sign in with Google and land your next opportunity.
             </p>
             <div className={`${styles.heroCta} animate-fade-up`} style={{ animationDelay: '0.3s' }}>
               {session ? (
@@ -87,7 +85,7 @@ export default function Home() {
       <section className={styles.section}>
         <div className="container">
           <div className={styles.sectionHeader}>
-            <span className="badge badge-primary">Why ResumeForge?</span>
+            <span className="badge badge-primary">Why Resume Builder?</span>
             <h2>Everything You <span className="gradient-text">Need to Succeed</span></h2>
           </div>
           <div className="grid-3">
@@ -108,7 +106,7 @@ export default function Home() {
           <div className={styles.ctaBox}>
             <div className={styles.ctaGlow} />
             <h2>Ready to Land Your <span className="gradient-text">Dream Job?</span></h2>
-            <p>Join thousands of professionals who built their careers with ResumeForge</p>
+            <p>Join thousands of professionals who built their careers with Resume Builder</p>
             {!session && (
               <button onClick={() => signIn('google')} className="btn btn-primary btn-lg">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -129,7 +127,7 @@ export default function Home() {
         <div className="container">
           <div className={styles.footerContent}>
             <div className={styles.footerBrand}>
-              <span className={styles.logo}>⚡ ResumeForge</span>
+              <span className={styles.logo}>⚡ Resume Builder</span>
               <p>Build resumes that get noticed.</p>
             </div>
             <div className={styles.footerLinks}>
@@ -138,7 +136,7 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.footerBottom}>
-            <p>© 2026 ResumeForge. All rights reserved.</p>
+            <p>© 2026 Resume Builder. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -147,6 +145,11 @@ export default function Home() {
 }
 
 const features = [
+  {
+    icon: '🎯',
+    title: 'Full ATS Optimization',
+    desc: 'Beat automated filters with our accurate ATS keyword search and matching. Ensure your resume never gets lost in the system.',
+  },
   {
     icon: '🎨',
     title: '12+ Premium Templates',
@@ -171,10 +174,5 @@ const features = [
     icon: '☁️',
     title: 'Auto-Save to Cloud',
     desc: 'Your resumes are saved automatically. Access and edit them from any device.',
-  },
-  {
-    icon: '📱',
-    title: 'Mobile Friendly',
-    desc: 'Edit your resume on the go. Our builder works beautifully on all screen sizes.',
-  },
+  }
 ];

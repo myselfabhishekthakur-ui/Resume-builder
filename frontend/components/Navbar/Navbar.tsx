@@ -7,13 +7,14 @@ import styles from './Navbar.module.css';
 export default function Navbar() {
   const { data: session } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   return (
     <nav className={styles.nav}>
       <div className="container">
         <div className={styles.inner}>
           <Link href="/" className={styles.logo}>
-            ⚡ ResumeForge
+            ⚡ Resume Builder
           </Link>
 
           <div className={styles.links}>
@@ -25,10 +26,14 @@ export default function Navbar() {
             {session ? (
               <div className={styles.userMenu}>
                 <button className={styles.avatar} onClick={() => setMenuOpen(!menuOpen)}>
-                  {session.user?.image ? (
-                    <img src={session.user.image} alt={session.user.name || ''} />
+                  {session.user?.image && !imageError ? (
+                    <img 
+                      src={session.user.image} 
+                      alt={session.user.name || ''} 
+                      onError={() => setImageError(true)}
+                    />
                   ) : (
-                    <span>{session.user?.name?.charAt(0) || 'U'}</span>
+                    <span>{session.user?.name?.charAt(0)?.toUpperCase() || 'U'}</span>
                   )}
                 </button>
                 {menuOpen && (
