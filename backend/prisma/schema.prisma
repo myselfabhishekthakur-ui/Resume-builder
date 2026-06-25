@@ -13,6 +13,7 @@ model User {
   email       String   @unique
   name        String
   picture     String?
+  points      Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   resumes     Resume[]
@@ -29,4 +30,14 @@ model Resume {
   updatedAt    DateTime @updatedAt
 
   @@index([userId])
+}
+
+model PaymentRequest {
+  id            String   @id @default(cuid())
+  userId        String
+  transactionId String?
+  orderId       String?  @unique
+  amount        Int      @default(10)
+  status        String   @default("PENDING") // or "APPROVED"
+  createdAt     DateTime @default(now())
 }

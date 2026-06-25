@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useResumeStore } from '@/lib/store';
@@ -17,6 +17,7 @@ export default function BuilderPage() {
   const searchParams = useSearchParams();
   const resumeIdParam = searchParams.get('resumeId');
   const previewRef = useRef<HTMLDivElement>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const {
     setTemplateId,
@@ -29,6 +30,8 @@ export default function BuilderPage() {
     setResumeId,
     loadResume,
     reset,
+    points,
+    setPoints,
   } = useResumeStore();
 
   const template = TEMPLATES.find(t => t.id === templateId);
@@ -57,7 +60,13 @@ export default function BuilderPage() {
       }
       if (templateId) setTemplateId(templateId);
     }
-  }, [resumeIdParam, resumeId, loadResume, templateId, setTemplateId, reset]);
+
+    if (status === 'authenticated') {
+      api.getPoints()
+        .then(res => setPoints(res.points))
+        .catch(console.error);
+    }
+  }, [resumeIdParam, resumeId, loadResume, templateId, setTemplateId, reset, status, setPoints]);
 
   // Debounced autosave for all resumes
   useEffect(() => {
@@ -110,7 +119,7 @@ export default function BuilderPage() {
     }
   };
 
-  const handleDownloadPDF = async () => {
+  const executeDownload = async () => {
     const { default: jsPDF } = await import('jspdf');
     const { default: html2canvas } = await import('html2canvas');
     if (!previewRef.current) return;
@@ -126,6 +135,71 @@ export default function BuilderPage() {
     const h = (canvas.height * w) / canvas.width;
     pdf.addImage(imgData, 'PNG', 0, 0, w, h);
     pdf.save(`${data.personal.fullName || 'resume'}.pdf`);
+  };
+
+  const handleDownloadPDF = async () => {
+    if (points >= 10) {
+      setShowConfirmModal(true);
+      return;
+    }
+
+    // Points are less than 10, open Razorpay Checkout
+    try {
+      const res = await new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      });
+
+      if (!res) {
+        alert('Razorpay SDK failed to load. Please check your connection.');
+        return;
+      }
+
+      const order = await api.createRazorpayOrder();
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_T5wmOerMaU9ASY',
+        amount: order.amount,
+        currency: order.currency,
+        name: "Resume Builder",
+        description: "Premium PDF Download",
+        order_id: order.orderId,
+        handler: async function (response: any) {
+          try {
+            const verifyRes = await api.verifyRazorpayPayment(
+              response.razorpay_order_id,
+              response.razorpay_payment_id,
+              response.razorpay_signature
+            );
+            
+            if (verifyRes.success) {
+              setPoints(verifyRes.points);
+              alert(`Payment successful! You now have ${verifyRes.points} points.`);
+            }
+          } catch (err) {
+            alert('Payment verification failed. Please contact support.');
+            console.error(err);
+          }
+        },
+        prefill: {
+          name: session?.user?.name || "User",
+          email: session?.user?.email || "",
+          contact: "",
+        },
+        theme: {
+          color: "#818cf8",
+        }
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+    } catch (err) {
+      alert('Could not initiate payment. Please try again.');
+      console.error(err);
+    }
   };
 
   if (status === 'loading') {
@@ -163,9 +237,14 @@ export default function BuilderPage() {
           >
             {resumeId ? '✓ Saved' : '💾 Save Resume'}
           </button>
-          <button onClick={handleDownloadPDF} className="btn btn-secondary btn-sm">
-            ⬇ Download PDF
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span className="badge badge-secondary">
+              Points: {points}
+            </span>
+            <button onClick={handleDownloadPDF} className="btn btn-secondary btn-sm">
+              ⬇ Download PDF
+            </button>
+          </div>
         </div>
       </header>
 
@@ -183,6 +262,51 @@ export default function BuilderPage() {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            background: 'white', padding: '30px', borderRadius: '12px',
+            maxWidth: '400px', width: '90%', textAlign: 'center',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+          }}>
+            <h2 style={{ color: '#333', marginBottom: '10px' }}>Download Resume</h2>
+            <p style={{ color: '#666', marginBottom: '25px' }}>
+              This will deduct <strong>10 points</strong> from your balance. Are you sure you want to download?
+            </p>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button 
+                className="btn btn-ghost" 
+                onClick={() => setShowConfirmModal(false)}
+                style={{ flex: 1 }}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary" 
+                style={{ flex: 1 }}
+                onClick={async () => {
+                  setShowConfirmModal(false);
+                  try {
+                    const res = await api.redeemPoint();
+                    setPoints(res.points);
+                    executeDownload();
+                  } catch (err: any) {
+                    alert('Failed to verify points. Please try again.');
+                  }
+                }}
+              >
+                Confirm (-10 pts)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
