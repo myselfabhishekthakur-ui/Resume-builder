@@ -98,6 +98,17 @@ export const api = {
     return data;
   },
 
+  async uploadAndParseResume(file: File): Promise<ResumeData> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const { data } = await apiClient.post<ResumeData>('/resumes/parse', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  },
+
   // Points & Monetization
   async getPoints(): Promise<{ points: number }> {
     const { data } = await apiClient.get<{ points: number }>('/users/me/points');

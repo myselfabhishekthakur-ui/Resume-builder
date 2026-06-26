@@ -17,7 +17,9 @@ export default function BuilderPage() {
   const searchParams = useSearchParams();
   const resumeIdParam = searchParams.get('resumeId');
   const previewRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const {
     setTemplateId,
@@ -116,6 +118,24 @@ export default function BuilderPage() {
       alert('Save failed: ' + (err?.response?.data?.message || err.message || 'Unknown error'));
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const parsedData = await api.uploadAndParseResume(file);
+      useResumeStore.setState({ data: parsedData });
+      alert('Resume parsed successfully! Please review the extracted data carefully.');
+    } catch (err: any) {
+      console.error(err);
+      alert('Failed to parse resume: ' + (err?.response?.data?.message || err.message));
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -236,6 +256,22 @@ export default function BuilderPage() {
             style={{ marginRight: '8px' }}
           >
             {resumeId ? '✓ Saved' : '💾 Save Resume'}
+          </button>
+          
+          <input 
+            type="file" 
+            accept=".pdf,.doc,.docx"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileUpload}
+          />
+          <button 
+            onClick={() => fileInputRef.current?.click()} 
+            className="btn btn-secondary btn-sm"
+            style={{ marginRight: '8px' }}
+            disabled={isUploading}
+          >
+            {isUploading ? '⏳ Parsing...' : '📄 Import Old Resume'}
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="badge badge-secondary">

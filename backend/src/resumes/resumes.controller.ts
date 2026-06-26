@@ -8,15 +8,32 @@ import {
   Param,
   UseGuards,
   Req,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ResumesService } from './resumes.service';
+import { ResumesParserService } from './resumes.parser.service';
 import { CreateResumeDto, UpdateResumeDto } from './resumes.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('resumes')
 @UseGuards(JwtAuthGuard)
 export class ResumesController {
-  constructor(private resumesService: ResumesService) {}
+  constructor(
+    private resumesService: ResumesService,
+    private parserService: ResumesParserService
+  ) {}
+
+  @Post('parse')
+  @UseInterceptors(FileInterceptor('file'))
+  async parseResume(@UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No file provided');
+    }
+    return this.parserService.parseFile(file);
+  }
 
   @Post()
   create(@Req() req: any, @Body() dto: CreateResumeDto) {
