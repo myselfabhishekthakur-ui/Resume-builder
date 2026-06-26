@@ -15,7 +15,7 @@ export class PaymentsService {
   }
 
   async createOrder(userId: string) {
-    const amount = 1000; // 10 INR in paise
+    const amount = 2000; // 20 INR in paise
 
     const options = {
       amount,
@@ -30,7 +30,7 @@ export class PaymentsService {
         data: {
           userId,
           orderId: order.id,
-          amount: 10,
+          amount: 20,
           status: 'PENDING'
         }
       });
@@ -61,7 +61,7 @@ export class PaymentsService {
 
       const user = await this.prisma.user.update({
         where: { id: userId },
-        data: { points: { increment: 10 } }
+        data: { points: { increment: 20 } }
       });
 
       return { success: true, points: user.points };

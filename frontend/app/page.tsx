@@ -61,7 +61,7 @@ export default function Home() {
               </div>
               <div className={styles.statDivider} />
               <div className={styles.stat}>
-                <span className={styles.statNum}>₹10</span>
+                <span className={styles.statNum}>₹20</span>
                 <span className={styles.statLabel}>PER RESUME</span>
               </div>
             </div>

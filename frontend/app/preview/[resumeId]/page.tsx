@@ -59,12 +59,12 @@ export default function PreviewPage() {
   };
 
   const handleDownloadPDF = async () => {
-    if (points >= 10) {
+    if (points >= 20) {
       setShowConfirmModal(true);
       return;
     }
 
-    // Points are less than 10, open Razorpay Checkout
+    // Points are less than 20, open Razorpay Checkout
     try {
       const res = await new Promise((resolve) => {
         const script = document.createElement('script');
@@ -189,7 +189,7 @@ export default function PreviewPage() {
           }}>
             <h2 style={{ color: '#333', marginBottom: '10px' }}>Download Resume</h2>
             <p style={{ color: '#666', marginBottom: '25px' }}>
-              This will deduct <strong>10 points</strong> from your balance. Are you sure you want to download?
+              This will deduct <strong>20 points</strong> from your balance. Are you sure you want to download?
             </p>
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
               <button 
@@ -213,7 +213,7 @@ export default function PreviewPage() {
                   }
                 }}
               >
-                Confirm (-10 pts)
+                Confirm (-20 pts)
               </button>
             </div>
           </div>
