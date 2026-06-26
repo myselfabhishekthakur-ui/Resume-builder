@@ -30,7 +30,7 @@ export class ResumesParserService {
   }
 
   private extractData(text: string): any {
-    // Basic Heuristic/Regex Parser
+    // Advanced Heuristic Parser
     const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
     const joinedText = lines.join('\n');
 
@@ -45,6 +45,68 @@ export class ResumesParserService {
     // Naive Full Name (Assuming first line is name)
     const fullName = lines.length > 0 ? lines[0] : '';
 
+    // Chunk text into sections based on common headings
+    const sections: Record<string, string[]> = {
+      experience: [],
+      education: [],
+      skills: [],
+      projects: [],
+      summary: []
+    };
+    
+    let currentSection = 'summary';
+
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i];
+      const upperLine = line.toUpperCase();
+      
+      if (upperLine.includes('EXPERIENCE') || upperLine.includes('EMPLOYMENT') || upperLine.includes('WORK HISTORY')) {
+        currentSection = 'experience';
+        continue;
+      } else if (upperLine.includes('EDUCATION') || upperLine.includes('ACADEMIC')) {
+        currentSection = 'education';
+        continue;
+      } else if (upperLine.includes('SKILL') || upperLine.includes('TECHNOLOGIES')) {
+        currentSection = 'skills';
+        continue;
+      } else if (upperLine.includes('PROJECT')) {
+        currentSection = 'projects';
+        continue;
+      }
+
+      sections[currentSection].push(line);
+    }
+
+    // Process Skills
+    const rawSkills = sections.skills.join(',').split(/[,|•]/).map(s => s.trim()).filter(s => s.length > 0 && s.length < 40);
+    const uniqueSkills = [...new Set(rawSkills)].slice(0, 15); // Max 15 skills
+    const mappedSkills = uniqueSkills.map((s, idx) => ({ id: idx.toString(), name: s }));
+
+    // Process Experience
+    const expText = sections.experience.join('\n');
+    const mappedExp = sections.experience.length > 0 ? [{
+      id: Date.now().toString(),
+      company: 'Extracted Company (Review Required)',
+      position: 'Extracted Position',
+      location: '',
+      startDate: 'YYYY-MM',
+      endDate: 'YYYY-MM',
+      current: false,
+      description: expText.substring(0, 1000), // Dump all exp text here for the user to review
+    }] : [];
+
+    // Process Education
+    const eduText = sections.education.join('\n');
+    const mappedEdu = sections.education.length > 0 ? [{
+      id: Date.now().toString(),
+      institution: 'Extracted Institution (Review Required)',
+      degree: 'Extracted Degree',
+      field: '',
+      startDate: 'YYYY-MM',
+      endDate: 'YYYY-MM',
+      description: eduText.substring(0, 500),
+    }] : [];
+
     return {
       personal: {
         fullName: fullName.substring(0, 50),
@@ -55,22 +117,11 @@ export class ResumesParserService {
         website: '',
         linkedin: '',
         github: '',
-        summary: joinedText.substring(0, 300) + '...',
+        summary: sections.summary.join(' ').substring(0, 400),
       },
-      experience: [
-        {
-          id: Date.now().toString(),
-          company: 'Extracted Company',
-          position: 'Extracted Position',
-          location: '',
-          startDate: '2020-01',
-          endDate: '2023-01',
-          current: false,
-          description: 'Please review your extracted experience here.',
-        }
-      ],
-      education: [],
-      skills: [],
+      experience: mappedExp,
+      education: mappedEdu,
+      skills: mappedSkills,
       projects: [],
       certifications: [],
     };
