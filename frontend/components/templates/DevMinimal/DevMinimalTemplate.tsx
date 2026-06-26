@@ -27,7 +27,7 @@ export default function DevMinimalTemplate({ data }: Props) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Experience</h2>
           {experience.map(exp => (
-            <div key={exp.id} className={styles.entry}>
+            <div key={exp.id} className={styles.entry} style={{ pageBreakBefore: exp.pageBreak ? 'always' : 'auto' }}>
               <div className={styles.entryRow}>
                 <strong className={styles.entryTitle}>{exp.position}</strong>
                 <span className={styles.date}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
@@ -50,7 +50,7 @@ export default function DevMinimalTemplate({ data }: Props) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Projects</h2>
           {projects.map(proj => (
-            <div key={proj.id} className={styles.entry}>
+            <div key={proj.id} className={styles.entry} style={{ pageBreakBefore: proj.pageBreak ? 'always' : 'auto' }}>
               <div className={styles.entryRow}>
                 <strong className={styles.entryTitle}>{proj.name}</strong>
                 {proj.github && <span className={styles.link}>{proj.github}</span>}
@@ -65,7 +65,7 @@ export default function DevMinimalTemplate({ data }: Props) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Education</h2>
           {education.map(edu => (
-            <div key={edu.id} className={styles.entry}>
+            <div key={edu.id} className={styles.entry} style={{ pageBreakBefore: edu.pageBreak ? 'always' : 'auto' }}>
               <div className={styles.entryRow}>
                 <strong className={styles.entryTitle}>{edu.degree} {edu.field}</strong>
                 <span className={styles.date}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</span>

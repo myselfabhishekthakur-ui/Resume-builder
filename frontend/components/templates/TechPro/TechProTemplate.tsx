@@ -73,7 +73,7 @@ export default function TechProTemplate({ data }: Props) {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}><span className={styles.dot} />EXPERIENCE</h2>
             {experience.map(exp => (
-              <div key={exp.id} className={styles.entry}>
+              <div key={exp.id} className={styles.entry} style={{ pageBreakBefore: exp.pageBreak ? 'always' : 'auto' }}>
                 <div className={styles.entryHeader}>
                   <div>
                     <div className={styles.entryTitle}>{exp.position}</div>
@@ -95,7 +95,7 @@ export default function TechProTemplate({ data }: Props) {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}><span className={styles.dot} />PROJECTS</h2>
             {projects.map(proj => (
-              <div key={proj.id} className={styles.entry}>
+              <div key={proj.id} className={styles.entry} style={{ pageBreakBefore: proj.pageBreak ? 'always' : 'auto' }}>
                 <div className={styles.entryHeader}>
                   <div className={styles.entryTitle}>{proj.name}</div>
                   {proj.technologies && <div className={styles.techPills}>{proj.technologies.split(',').map(t => <span key={t} className={styles.tech}>{t.trim()}</span>)}</div>}
@@ -110,7 +110,7 @@ export default function TechProTemplate({ data }: Props) {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}><span className={styles.dot} />EDUCATION</h2>
             {education.map(edu => (
-              <div key={edu.id} className={styles.entry}>
+              <div key={edu.id} className={styles.entry} style={{ pageBreakBefore: edu.pageBreak ? 'always' : 'auto' }}>
                 <div className={styles.entryHeader}>
                   <div>
                     <div className={styles.entryTitle}>{edu.degree} {edu.field ? `in ${edu.field}` : ''}</div>

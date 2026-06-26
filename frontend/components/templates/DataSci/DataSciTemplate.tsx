@@ -57,7 +57,7 @@ export default function DataSciTemplate({ data }: Props) {
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Work Experience</h2>
               {experience.map(exp => (
-                <div key={exp.id} className={styles.entry}>
+                <div key={exp.id} className={styles.entry} style={{ pageBreakBefore: exp.pageBreak ? 'always' : 'auto' }}>
                   <div className={styles.entryLeft}><div className={styles.dot}/></div>
                   <div className={styles.entryRight}>
                     <div className={styles.entryTop}>
@@ -75,7 +75,7 @@ export default function DataSciTemplate({ data }: Props) {
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Projects</h2>
               {projects.map(proj => (
-                <div key={proj.id} className={styles.projCard}>
+                <div key={proj.id} className={styles.projCard} style={{ pageBreakBefore: proj.pageBreak ? 'always' : 'auto' }}>
                   <div className={styles.projName}>{proj.name}</div>
                   {proj.description && <p className={styles.desc}>{proj.description}</p>}
                   {proj.technologies && <div className={styles.chips}>{proj.technologies.split(',').map(t => <span key={t} className={styles.chip}>{t.trim()}</span>)}</div>}
@@ -87,7 +87,7 @@ export default function DataSciTemplate({ data }: Props) {
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Education</h2>
               {education.map(edu => (
-                <div key={edu.id} className={styles.entry}>
+                <div key={edu.id} className={styles.entry} style={{ pageBreakBefore: edu.pageBreak ? 'always' : 'auto' }}>
                   <div className={styles.entryLeft}><div className={styles.dot}/></div>
                   <div className={styles.entryRight}>
                     <div className={styles.entryTop}>

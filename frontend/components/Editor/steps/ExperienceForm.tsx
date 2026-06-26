@@ -53,6 +53,11 @@ export default function ExperienceForm() {
               value={exp.description}
               onChange={e => updateExperience(exp.id, { description: e.target.value })} />
           </div>
+          <div className={styles.checkboxRow} style={{ marginTop: '12px' }}>
+            <input type="checkbox" id={`pb-exp-${exp.id}`} checked={exp.pageBreak || false}
+              onChange={e => updateExperience(exp.id, { pageBreak: e.target.checked })} />
+            <label htmlFor={`pb-exp-${exp.id}`}>📄 Start on new page (PDF Download)</label>
+          </div>
         </div>
       ))}
       <button className={styles.addBtn} onClick={addExperience}>+ Add Work Experience</button>

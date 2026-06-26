@@ -22,6 +22,7 @@ export interface WorkExperience {
   endDate: string;
   current: boolean;
   description: string;
+  pageBreak?: boolean;
 }
 
 export interface Education {
@@ -33,6 +34,7 @@ export interface Education {
   endDate: string;
   gpa?: string;
   description?: string;
+  pageBreak?: boolean;
 }
 
 export interface Skill {
@@ -49,6 +51,7 @@ export interface Project {
   technologies: string;
   url?: string;
   github?: string;
+  pageBreak?: boolean;
 }
 
 export interface Certification {

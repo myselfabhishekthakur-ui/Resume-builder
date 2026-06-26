@@ -140,21 +140,20 @@ export default function BuilderPage() {
   };
 
   const executeDownload = async () => {
-    const { default: jsPDF } = await import('jspdf');
-    const { default: html2canvas } = await import('html2canvas');
+    // Dynamically import html2pdf in browser environment
+    const html2pdf = (await import('html2pdf.js')).default;
     if (!previewRef.current) return;
 
-    const canvas = await html2canvas(previewRef.current, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-    });
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const w = pdf.internal.pageSize.getWidth();
-    const h = (canvas.height * w) / canvas.width;
-    pdf.addImage(imgData, 'PNG', 0, 0, w, h);
-    pdf.save(`${data.personal.fullName || 'resume'}.pdf`);
+    const opt = {
+      margin:       0,
+      filename:     `${data.personal.fullName || 'resume'}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, logging: false },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: 'css', avoid: 'tr, img' }
+    };
+
+    html2pdf().set(opt).from(previewRef.current).save();
   };
 
   const handleDownloadPDF = async () => {

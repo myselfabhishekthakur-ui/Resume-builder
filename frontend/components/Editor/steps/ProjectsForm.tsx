@@ -42,6 +42,11 @@ export default function ProjectsForm() {
                 onChange={e => updateProject(proj.id, { github: e.target.value })} />
             </div>
           </div>
+          <div className={styles.checkboxRow} style={{ marginTop: '12px' }}>
+            <input type="checkbox" id={`pb-proj-${proj.id}`} checked={proj.pageBreak || false}
+              onChange={e => updateProject(proj.id, { pageBreak: e.target.checked })} />
+            <label htmlFor={`pb-proj-${proj.id}`}>📄 Start on new page (PDF Download)</label>
+          </div>
         </div>
       ))}
       <button className={styles.addBtn} onClick={addProject}>+ Add Project</button>

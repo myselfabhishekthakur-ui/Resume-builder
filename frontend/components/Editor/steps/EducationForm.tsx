@@ -48,6 +48,11 @@ export default function EducationForm() {
             <input className="input" placeholder="3.8/4.0" value={edu.gpa || ''}
               onChange={e => updateEducation(edu.id, { gpa: e.target.value })} />
           </div>
+          <div className={styles.checkboxRow} style={{ marginTop: '12px' }}>
+            <input type="checkbox" id={`pb-edu-${edu.id}`} checked={edu.pageBreak || false}
+              onChange={e => updateEducation(edu.id, { pageBreak: e.target.checked })} />
+            <label htmlFor={`pb-edu-${edu.id}`}>📄 Start on new page (PDF Download)</label>
+          </div>
         </div>
       ))}
       <button className={styles.addBtn} onClick={addEducation}>+ Add Education</button>

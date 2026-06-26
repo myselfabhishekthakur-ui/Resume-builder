@@ -32,7 +32,7 @@ export default function CorpLeadTemplate({ data }: Props) {
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Professional Experience</h2>
               {experience.map(exp => (
-                <div key={exp.id} className={styles.entry}>
+                <div key={exp.id} className={styles.entry} style={{ pageBreakBefore: exp.pageBreak ? 'always' : 'auto' }}>
                   <div className={styles.entryHeader}>
                     <div>
                       <div className={styles.entryTitle}>{exp.position}</div>
@@ -49,7 +49,7 @@ export default function CorpLeadTemplate({ data }: Props) {
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Education</h2>
               {education.map(edu => (
-                <div key={edu.id} className={styles.entry}>
+                <div key={edu.id} className={styles.entry} style={{ pageBreakBefore: edu.pageBreak ? 'always' : 'auto' }}>
                   <div className={styles.entryHeader}>
                     <div>
                       <div className={styles.entryTitle}>{edu.degree} in {edu.field}</div>
@@ -88,7 +88,7 @@ export default function CorpLeadTemplate({ data }: Props) {
             <div className={styles.asideSection}>
               <h3 className={styles.asideTitle}>Key Projects</h3>
               {projects.map(proj => (
-                <div key={proj.id} className={styles.projItem}>
+                <div key={proj.id} className={styles.projItem} style={{ pageBreakBefore: proj.pageBreak ? 'always' : 'auto' }}>
                   <div className={styles.certName}>{proj.name}</div>
                   {proj.description && <div className={styles.certIssuer}>{proj.description}</div>}
                 </div>
