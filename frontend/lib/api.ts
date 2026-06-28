@@ -112,29 +112,4 @@ export const api = {
     return data;
   },
 
-  // Points & Monetization
-  async getPoints(): Promise<{ points: number }> {
-    const { data } = await apiClient.get<{ points: number }>('/users/me/points');
-    return data;
-  },
-  async redeemPoint(): Promise<{ points: number }> {
-    const { data } = await apiClient.post<{ points: number }>('/users/me/redeem');
-    return data;
-  },
-  async createRazorpayOrder(): Promise<{ orderId: string, amount: number, currency: string }> {
-    const { data } = await apiClient.post<{ orderId: string, amount: number, currency: string }>('/payments/create-order');
-    return data;
-  },
-  async verifyRazorpayPayment(
-    razorpay_order_id: string,
-    razorpay_payment_id: string,
-    razorpay_signature: string
-  ): Promise<{ success: boolean, points: number }> {
-    const { data } = await apiClient.post<{ success: boolean, points: number }>('/payments/verify', {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature
-    });
-    return data;
-  }
 };
