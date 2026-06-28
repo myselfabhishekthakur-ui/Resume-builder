@@ -16,7 +16,8 @@ export default function PreviewPage() {
   const [resume, setResume] = useState<ResumeServerResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const previewRef = useRef<HTMLDivElement>(null);
-  const { loadResume } = useResumeStore();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const { loadResume, points, setPoints } = useResumeStore();
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -33,8 +34,12 @@ export default function PreviewPage() {
         .finally(() => {
           setLoading(false);
         });
+
+      api.getPoints()
+        .then(res => setPoints(res.points))
+        .catch(console.error);
     }
-  }, [status, resumeId, router, loadResume]);
+  }, [status, resumeId, router, loadResume, setPoints]);
 
   const executeDownload = async () => {
     // Dynamically import html2pdf in browser environment
@@ -55,7 +60,72 @@ export default function PreviewPage() {
   };
 
   const handleDownloadPDF = async () => {
-    await executeDownload();
+    if (points >= 20) {
+      setShowConfirmModal(true);
+      return;
+    }
+
+    // Points are less than 20, open Razorpay Checkout
+    try {
+      const res = await new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      });
+
+      if (!res) {
+        alert('Razorpay SDK failed to load. Please check your connection.');
+        return;
+      }
+
+      const order = await api.createRazorpayOrder();
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_T5wmOerMaU9ASY',
+        amount: order.amount,
+        currency: order.currency,
+        name: "Resume Builder",
+        description: "Premium PDF Download",
+        order_id: order.orderId,
+        handler: async function (response: any) {
+          try {
+            const verifyRes = await api.verifyRazorpayPayment(
+              response.razorpay_order_id,
+              response.razorpay_payment_id,
+              response.razorpay_signature
+            );
+            
+            if (verifyRes.success) {
+              setPoints(verifyRes.points);
+              alert(`Payment successful! You now have ${verifyRes.points} points.`);
+            }
+          } catch (err) {
+            alert('Payment verification failed. Please contact support.');
+            console.error(err);
+          }
+        },
+        prefill: {
+          name: session?.user?.name || "User",
+          email: session?.user?.email || "",
+          contact: "",
+        },
+        theme: {
+          color: "#818cf8",
+        }
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+    } catch (err: any) {
+      if (err?.response?.status === 404 && process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+        alert('Configuration Error: Your backend API URL is not set. Please add NEXT_PUBLIC_API_URL to your Vercel Environment Variables and redeploy.');
+      } else {
+        alert('Could not initiate payment. Please try again.');
+      }
+      console.error(err);
+    }
   };
 
   if (status === 'loading' || loading) {
@@ -91,7 +161,10 @@ export default function PreviewPage() {
               <h1 style={{ margin: 0, fontSize: '1.25rem' }}>Previewing: {resume.title}</h1>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <button onClick={executeDownload} className="btn btn-primary btn-md">
+              <span className="badge badge-secondary" style={{ color: 'white', border: '1px solid rgba(255,255,255,0.2)' }}>
+                Points: {points}
+              </span>
+              <button onClick={handleDownloadPDF} className="btn btn-primary btn-md">
                 ⬇ Download PDF
               </button>
             </div>
@@ -109,6 +182,50 @@ export default function PreviewPage() {
         </div>
       </section>
 
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            background: 'white', padding: '30px', borderRadius: '12px',
+            maxWidth: '400px', width: '90%', textAlign: 'center',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+          }}>
+            <h2 style={{ color: '#333', marginBottom: '10px' }}>Download Resume</h2>
+            <p style={{ color: '#666', marginBottom: '25px' }}>
+              This will deduct <strong>20 points</strong> from your balance. Are you sure you want to download?
+            </p>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button 
+                className="btn btn-ghost" 
+                onClick={() => setShowConfirmModal(false)}
+                style={{ flex: 1 }}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary" 
+                style={{ flex: 1 }}
+                onClick={async () => {
+                  setShowConfirmModal(false);
+                  try {
+                    const res = await api.redeemPoint();
+                    setPoints(res.points);
+                    executeDownload();
+                  } catch (err: any) {
+                    alert('Failed to verify points. Please try again.');
+                  }
+                }}
+              >
+                Confirm (-20 pts)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

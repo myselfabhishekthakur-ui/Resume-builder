@@ -102,6 +102,8 @@ interface ResumeStore {
   removeCertification: (id: string) => void;
   loadResume: (data: ResumeData, templateId: string, title: string, resumeId: string) => void;
   reset: () => void;
+  points: number;
+  setPoints: (points: number) => void;
 }
 
 const defaultPersonal: PersonalInfo = {
@@ -134,6 +136,9 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   data: defaultData,
   activeStep: 0,
   isSaving: false,
+  points: 0,
+
+  setPoints: (points) => set({ points }),
   setResumeId: (id) => set({ resumeId: id }),
   setTemplateId: (id) => set({ templateId: id }),
   setTitle: (title) => set({ title }),

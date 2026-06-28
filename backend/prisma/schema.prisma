@@ -32,4 +32,12 @@ model Resume {
   @@index([userId])
 }
 
-
+model PaymentRequest {
+  id            String   @id @default(cuid())
+  userId        String
+  transactionId String?
+  orderId       String?  @unique
+  amount        Int      @default(10)
+  status        String   @default("PENDING") // or "APPROVED"
+  createdAt     DateTime @default(now())
+}
