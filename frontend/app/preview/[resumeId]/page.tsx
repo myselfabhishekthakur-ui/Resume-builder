@@ -118,8 +118,12 @@ export default function PreviewPage() {
 
       const paymentObject = new (window as any).Razorpay(options);
       paymentObject.open();
-    } catch (err) {
-      alert('Could not initiate payment. Please try again.');
+    } catch (err: any) {
+      if (err?.response?.status === 404 && process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+        alert('Configuration Error: Your backend API URL is not set. Please add NEXT_PUBLIC_API_URL to your Vercel Environment Variables and redeploy.');
+      } else {
+        alert('Could not initiate payment. Please try again.');
+      }
       console.error(err);
     }
   };
