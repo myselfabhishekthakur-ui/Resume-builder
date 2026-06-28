@@ -1,15 +1,10 @@
 import axios from 'axios';
 import { ResumeData } from './store';
 
-const getApiUrl = () => {
-  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-  if (typeof window !== 'undefined') {
-    return `${window.location.protocol}//${window.location.hostname}:4000`;
-  }
-  return 'http://localhost:4000';
-};
-
-const API_URL = getApiUrl();
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? '/api' 
+    : (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.hostname}:4000` : 'http://localhost:4000'));
 
 export const apiClient = axios.create({
   baseURL: API_URL,
