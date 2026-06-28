@@ -85,12 +85,14 @@
   background: var(--bg-base);
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   padding: 32px;
 }
 
 .previewWrapper {
   width: 794px;
   min-height: 1123px;
+  height: max-content;
   background: white;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);

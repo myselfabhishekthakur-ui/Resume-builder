@@ -62,7 +62,7 @@ export default function DataSciTemplate({ data }: Props) {
                   <div className={styles.entryRight}>
                     <div className={styles.entryTop}>
                       <strong>{exp.position}</strong>
-                      <span className={styles.date}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                      <span className={styles.date}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
                     </div>
                     <div className={styles.company}>{exp.company} {exp.location ? `· ${exp.location}` : ''}</div>
                     {exp.description && <div className={styles.desc}>{exp.description.split('\n').map((l, i) => <p key={i}>{l}</p>)}</div>}
@@ -92,7 +92,7 @@ export default function DataSciTemplate({ data }: Props) {
                   <div className={styles.entryRight}>
                     <div className={styles.entryTop}>
                       <strong>{edu.degree} {edu.field}</strong>
-                      <span className={styles.date}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</span>
+                      <span className={styles.date}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</span>
                     </div>
                     <div className={styles.company}>{edu.institution}{edu.gpa ? ` · GPA: ${edu.gpa}` : ''}</div>
                   </div>

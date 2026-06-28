@@ -7,6 +7,7 @@ import { TEMPLATES } from '@/lib/templates';
 import Navbar from '@/components/Navbar/Navbar';
 import EditorForm from '@/components/Editor/EditorForm';
 import LivePreview from '@/components/Editor/LivePreview';
+import PaginatedPreview from '@/components/Editor/PaginatedPreview';
 import { api } from '@/lib/api';
 import styles from './builder.module.css';
 
@@ -147,13 +148,14 @@ export default function BuilderPage() {
     const opt = {
       margin:       0,
       filename:     `${data.personal.fullName || 'resume'}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
+      image:        { type: 'jpeg' as const, quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true, logging: false },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      jsPDF:        { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const },
       pagebreak:    { mode: 'css', avoid: 'tr, img' }
     };
 
-    html2pdf().set(opt).from(previewRef.current).save();
+    const element = document.getElementById('pdf-export-container') || previewRef.current;
+    html2pdf().set(opt).from(element).save();
   };
 
   const handleDownloadPDF = async () => {
@@ -293,7 +295,9 @@ export default function BuilderPage() {
         {/* Preview Panel */}
         <div className={styles.previewPanel}>
           <div className={styles.previewWrapper} ref={previewRef}>
-            <LivePreview templateId={templateId} />
+            <PaginatedPreview>
+              <LivePreview templateId={templateId} />
+            </PaginatedPreview>
           </div>
         </div>
       </div>

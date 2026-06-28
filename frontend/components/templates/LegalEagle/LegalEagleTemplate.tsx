@@ -61,7 +61,7 @@ export default function LegalEagleTemplate({ data }: Props) {
             <div key={exp.id} style={{ marginBottom: '14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
                 <strong style={{ fontSize: '0.88rem', color: '#111827' }}>{exp.position}</strong>
-                <span style={{ fontSize: '0.78rem', color: '#4b5563', fontStyle: 'italic' }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                <span style={{ fontSize: '0.78rem', color: '#4b5563', fontStyle: 'italic' }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
               </div>
               <div style={{ fontSize: '0.82rem', color: '#4b5563', fontWeight: 600, marginBottom: '4px' }}>
                 {exp.company}{exp.location ? `, ${exp.location}` : ''}
@@ -88,7 +88,7 @@ export default function LegalEagleTemplate({ data }: Props) {
             <div key={edu.id} style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
                 <strong style={{ fontSize: '0.88rem', color: '#111827' }}>{edu.degree} in {edu.field}</strong>
-                <span style={{ fontSize: '0.78rem', color: '#4b5563', fontStyle: 'italic' }}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</span>
+                <span style={{ fontSize: '0.78rem', color: '#4b5563', fontStyle: 'italic' }}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</span>
               </div>
               <div style={{ fontSize: '0.8rem', color: '#4b5563' }}>
                 {edu.institution}

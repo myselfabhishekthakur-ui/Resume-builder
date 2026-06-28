@@ -72,7 +72,7 @@ export default function MarketProTemplate({ data }: Props) {
                 <div key={exp.id} style={{ marginBottom: '20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
                     <strong style={{ fontSize: '0.95rem', color: '#1e293b' }}>{exp.position}</strong>
-                    <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#f97316', fontWeight: 600, marginBottom: '6px' }}>{exp.company}</div>
                   {exp.description && (
@@ -147,7 +147,7 @@ export default function MarketProTemplate({ data }: Props) {
                 <div key={edu.id} style={{ marginBottom: '12px' }}>
                   <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b' }}>{edu.degree} {edu.field}</div>
                   <div style={{ fontSize: '0.78rem', color: '#475569' }}>{edu.institution}</div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</div>
                 </div>
               ))}
             </div>

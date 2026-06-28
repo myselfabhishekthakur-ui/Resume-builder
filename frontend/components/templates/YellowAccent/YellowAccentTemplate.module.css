@@ -1,0 +1,316 @@
+.resume {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f5f9;
+  color: #334155;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0 0 40px;
+  background-color: #f1f5f9;
+}
+
+.headerLeft {
+  flex-grow: 1;
+}
+
+.name {
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: #1e293b;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+  letter-spacing: 2px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.headerRight {
+  display: flex;
+  align-items: stretch;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 20px 20px 0;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #475569;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 8px;
+}
+
+.contactItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.iconBox {
+  width: 24px;
+  height: 24px;
+  background-color: #facc15;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  color: #1e293b;
+}
+
+.yellowBar {
+  width: 30px;
+  background-color: #facc15;
+}
+
+.columns {
+  display: flex;
+  flex-grow: 1;
+}
+
+.sidebar {
+  width: 35%;
+  padding: 40px;
+  flex-shrink: 0;
+}
+
+.avatarBlock {
+  background-color: #e2e8f0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 2px;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.section {
+  margin-bottom: 35px;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #1e293b;
+  border-bottom: 2px solid #1e293b;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+.entryListSmall {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.entrySmall {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.degree {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+}
+
+.schoolName {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.dateSmall {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.skillList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skillItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.skillName {
+  font-size: 0.85rem;
+  color: #475569;
+  flex-grow: 1;
+}
+
+.skillBar {
+  width: 100px;
+  height: 6px;
+  background-color: #cbd5e1;
+}
+
+.skillFill {
+  width: 80%;
+  height: 100%;
+  background-color: #1e293b;
+}
+
+.languageList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.languageItem {
+  font-size: 0.85rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+}
+
+.languageItem::before {
+  content: "•";
+  margin-right: 8px;
+  color: #1e293b;
+  font-size: 1.2rem;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 40px 40px 40px 0;
+}
+
+.mainSectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #1e293b;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+.quoteMark {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 0;
+  margin-top: 15px;
+  margin-bottom: -15px;
+}
+
+.summary {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #475569;
+  text-align: justify;
+  padding-left: 20px;
+}
+
+.summary p {
+  margin: 0 0 8px 0;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #94a3b8;
+  margin-left: 5px;
+}
+
+.timelineEntry {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 30px;
+}
+
+.timelineEntry:last-child {
+  margin-bottom: 0;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -4px;
+  top: 4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #1e293b;
+}
+
+.entryPosition {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.entryCompanyDate {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.entryDesc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.entryDesc ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.entryDesc p {
+  margin: 0 0 4px 0;
+}

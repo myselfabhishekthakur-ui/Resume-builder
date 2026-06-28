@@ -73,7 +73,7 @@ export default function CampusReadyTemplate({ data }: Props) {
                 <div style={{ fontSize: '0.8rem', color: '#475569' }}>{edu.institution}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</div>
+                <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</div>
                 {edu.gpa && <div style={{ fontSize: '0.75rem', color: '#14b8a6', fontWeight: 700 }}>GPA: {edu.gpa}</div>}
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function CampusReadyTemplate({ data }: Props) {
             <div key={exp.id} style={{ marginBottom: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
                 <strong style={{ fontSize: '0.88rem', color: '#0f172a' }}>{exp.position}</strong>
-                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
               </div>
               <div style={{ fontSize: '0.78rem', color: '#14b8a6', fontWeight: 600, marginBottom: '4px' }}>{exp.company}</div>
               {exp.description && <p style={{ fontSize: '0.78rem', color: '#475569', margin: 0, lineHeight: 1.45 }}>{exp.description}</p>}

@@ -79,7 +79,7 @@ export default function TechProTemplate({ data }: Props) {
                     <div className={styles.entryTitle}>{exp.position}</div>
                     <div className={styles.entrySubtitle}>{exp.company}{exp.location ? ` · ${exp.location}` : ''}</div>
                   </div>
-                  <div className={styles.entryDate}>{fmt(exp.startDate)} — {exp.current ? 'Present' : fmt(exp.endDate)}</div>
+                  <div className={styles.entryDate}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</div>
                 </div>
                 {exp.description && (
                   <div className={styles.entryDesc}>
@@ -116,7 +116,7 @@ export default function TechProTemplate({ data }: Props) {
                     <div className={styles.entryTitle}>{edu.degree} {edu.field ? `in ${edu.field}` : ''}</div>
                     <div className={styles.entrySubtitle}>{edu.institution}</div>
                   </div>
-                  <div className={styles.entryDate}>{fmt(edu.startDate)} — {fmt(edu.endDate)}</div>
+                  <div className={styles.entryDate}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</div>
                 </div>
                 {edu.gpa && <div className={styles.gpa}>GPA: {edu.gpa}</div>}
               </div>

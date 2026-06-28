@@ -30,7 +30,7 @@ export default function DevMinimalTemplate({ data }: Props) {
             <div key={exp.id} className={styles.entry} style={{ pageBreakBefore: exp.pageBreak ? 'always' : 'auto' }}>
               <div className={styles.entryRow}>
                 <strong className={styles.entryTitle}>{exp.position}</strong>
-                <span className={styles.date}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                <span className={styles.date}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
               </div>
               <div className={styles.company}>{exp.company}{exp.location ? `, ${exp.location}` : ''}</div>
               {exp.description && <div className={styles.desc}>{exp.description.split('\n').map((l, i) => <p key={i}>{l}</p>)}</div>}
@@ -68,7 +68,7 @@ export default function DevMinimalTemplate({ data }: Props) {
             <div key={edu.id} className={styles.entry} style={{ pageBreakBefore: edu.pageBreak ? 'always' : 'auto' }}>
               <div className={styles.entryRow}>
                 <strong className={styles.entryTitle}>{edu.degree} {edu.field}</strong>
-                <span className={styles.date}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</span>
+                <span className={styles.date}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</span>
               </div>
               <div className={styles.company}>{edu.institution}</div>
             </div>

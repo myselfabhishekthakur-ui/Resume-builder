@@ -28,7 +28,7 @@ export default function ExecSuiteTemplate({ data }: { data: ResumeData }) {
             <div key={exp.id} style={{ marginBottom: 16, paddingLeft: 16, borderLeft: '3px solid #fbbf24' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <strong style={{ fontSize: '0.9rem', color: '#111' }}>{exp.position}</strong>
-                <span style={{ fontSize: '0.7rem', color: '#888', fontStyle: 'italic' }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                <span style={{ fontSize: '0.7rem', color: '#888', fontStyle: 'italic' }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
               </div>
               <div style={{ fontSize: '0.8rem', color: '#f59e0b', fontWeight: 600 }}>{exp.company}{exp.location ? ` · ${exp.location}` : ''}</div>
               {exp.description && <div style={{ fontSize: '0.78rem', lineHeight: 1.6, color: '#444', marginTop: 6 }}>{exp.description.split('\n').map((l, i) => <p key={i}>{l}</p>)}</div>}

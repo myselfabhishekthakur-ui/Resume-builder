@@ -62,7 +62,7 @@ export default function StartupFounderTemplate({ data }: Props) {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
                     <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1e293b' }}>{exp.position}</h3>
                     <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>
-                      {fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}
+                      {[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}
                     </span>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#ef4444', fontWeight: 600, marginBottom: '6px' }}>
@@ -143,7 +143,7 @@ export default function StartupFounderTemplate({ data }: Props) {
                   <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b' }}>{edu.degree} {edu.field}</div>
                   <div style={{ fontSize: '0.78rem', color: '#475569', fontWeight: 500 }}>{edu.institution}</div>
                   <div style={{ fontSize: '0.72rem', color: '#64748b', fontStyle: 'italic' }}>
-                    {fmt(edu.startDate)} – {fmt(edu.endDate)}
+                    {[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}
                   </div>
                 </div>
               ))}

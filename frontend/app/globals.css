@@ -224,6 +224,7 @@ textarea.input {
   flex-direction: column;
   gap: 6px;
   margin-bottom: 20px;
+  min-width: 0;
 }
 
 /* Badge */

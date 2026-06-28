@@ -66,7 +66,7 @@ export default function HealthCareTemplate({ data }: Props) {
                 <div key={exp.id} style={{ marginBottom: '16px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
                     <strong style={{ fontSize: '0.88rem', color: '#0f172a' }}>{exp.position}</strong>
-                    <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                    <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
                   </div>
                   <div style={{ fontSize: '0.78rem', color: '#0ea5e9', fontWeight: 600, marginBottom: '4px' }}>{exp.company}</div>
                   {exp.description && (
@@ -125,7 +125,7 @@ export default function HealthCareTemplate({ data }: Props) {
                 <div key={edu.id} style={{ marginBottom: '12px' }}>
                   <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>{edu.degree} {edu.field}</div>
                   <div style={{ fontSize: '0.75rem', color: '#475569' }}>{edu.institution}</div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</div>
+                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</div>
                 </div>
               ))}
             </div>

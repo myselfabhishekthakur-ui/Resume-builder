@@ -118,7 +118,7 @@ export default function FreshStartTemplate({ data }: Props) {
                 <div key={exp.id} style={{ marginBottom: '16px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                     <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}>{exp.position}</h3>
-                    <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                    <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
                   </div>
                   <div style={{ fontSize: '0.8rem', color: '#db2777', fontWeight: 500, marginBottom: '4px' }}>{exp.company}</div>
                   {exp.description && <p style={{ fontSize: '0.78rem', color: '#475569', margin: 0, lineHeight: 1.4 }}>{exp.description}</p>}
@@ -139,7 +139,7 @@ export default function FreshStartTemplate({ data }: Props) {
                 <div key={edu.id} style={{ marginBottom: '14px' }}>
                   <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b' }}>{edu.degree} {edu.field}</div>
                   <div style={{ fontSize: '0.78rem', color: '#475569' }}>{edu.institution}</div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</div>
                   {edu.gpa && <div style={{ fontSize: '0.75rem', color: '#db2777', fontWeight: 600, marginTop: '2px' }}>GPA: {edu.gpa}</div>}
                 </div>
               ))}

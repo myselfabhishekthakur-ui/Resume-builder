@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar/Navbar';
 import { api, ResumeServerResponse } from '@/lib/api';
 import LivePreview from '@/components/Editor/LivePreview';
+import PaginatedPreview from '@/components/Editor/PaginatedPreview';
 import { useResumeStore } from '@/lib/store';
 import styles from './preview.module.css';
 
@@ -41,21 +42,21 @@ export default function PreviewPage() {
   }, [status, resumeId, router, loadResume, setPoints]);
 
   const executeDownload = async () => {
-    const { default: jsPDF } = await import('jspdf');
-    const { default: html2canvas } = await import('html2canvas');
+    // Dynamically import html2pdf in browser environment
+    const html2pdf = (await import('html2pdf.js')).default;
     if (!previewRef.current || !resume) return;
 
-    const canvas = await html2canvas(previewRef.current, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-    });
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const w = pdf.internal.pageSize.getWidth();
-    const h = (canvas.height * w) / canvas.width;
-    pdf.addImage(imgData, 'PNG', 0, 0, w, h);
-    pdf.save(`${resume.data.personal.fullName || 'resume'}.pdf`);
+    const opt = {
+      margin:       0,
+      filename:     `${resume.data.personal.fullName || 'resume'}.pdf`,
+      image:        { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, logging: false },
+      jsPDF:        { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const },
+      pagebreak:    { mode: 'css', avoid: 'tr, img' }
+    };
+
+    const element = document.getElementById('pdf-export-container') || previewRef.current;
+    html2pdf().set(opt).from(element).save();
   };
 
   const handleDownloadPDF = async () => {
@@ -170,7 +171,9 @@ export default function PreviewPage() {
       <section className={styles.previewSection}>
         <div className={styles.pageContainer}>
           <div className={styles.previewWrapper} ref={previewRef}>
-            <LivePreview templateId={resume.templateId} />
+            <PaginatedPreview>
+              <LivePreview templateId={resume.templateId} />
+            </PaginatedPreview>
           </div>
         </div>
       </section>

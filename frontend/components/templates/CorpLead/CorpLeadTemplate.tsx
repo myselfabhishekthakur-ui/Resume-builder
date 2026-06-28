@@ -38,7 +38,7 @@ export default function CorpLeadTemplate({ data }: Props) {
                       <div className={styles.entryTitle}>{exp.position}</div>
                       <div className={styles.company}>{exp.company}{exp.location ? ` | ${exp.location}` : ''}</div>
                     </div>
-                    <div className={styles.date}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</div>
+                    <div className={styles.date}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</div>
                   </div>
                   {exp.description && <div className={styles.desc}>{exp.description.split('\n').map((l, i) => <p key={i}>{l}</p>)}</div>}
                 </div>
@@ -55,7 +55,7 @@ export default function CorpLeadTemplate({ data }: Props) {
                       <div className={styles.entryTitle}>{edu.degree} in {edu.field}</div>
                       <div className={styles.company}>{edu.institution}</div>
                     </div>
-                    <div className={styles.date}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</div>
+                    <div className={styles.date}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</div>
                   </div>
                 </div>
               ))}

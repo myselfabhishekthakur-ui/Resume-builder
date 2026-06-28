@@ -119,7 +119,7 @@ export default function CreativeFlowTemplate({ data }: Props) {
               <div key={exp.id} style={{ marginBottom: '14px', background: '#ffffff', padding: '12px 16px', borderRadius: '12px', border: '1px solid #f3e8ff' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
                   <strong style={{ fontSize: '0.88rem', color: '#3b0764' }}>{exp.position}</strong>
-                  <span style={{ fontSize: '0.72rem', color: '#9333ea', fontWeight: 600 }}>{fmt(exp.startDate)} – {exp.current ? 'Present' : fmt(exp.endDate)}</span>
+                  <span style={{ fontSize: '0.72rem', color: '#9333ea', fontWeight: 600 }}>{[fmt(exp.startDate), exp.current ? 'Present' : fmt(exp.endDate)].filter(Boolean).join(' – ')}</span>
                 </div>
                 <div style={{ fontSize: '0.78rem', color: '#a855f7', fontWeight: 600, marginBottom: '6px' }}>{exp.company}</div>
                 {exp.description && <p style={{ fontSize: '0.78rem', color: '#581c87', margin: 0, lineHeight: 1.45 }}>{exp.description}</p>}
@@ -167,7 +167,7 @@ export default function CreativeFlowTemplate({ data }: Props) {
               <div key={edu.id} style={{ marginBottom: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <strong style={{ fontSize: '0.82rem', color: '#3b0764' }}>{edu.degree} {edu.field}</strong>
-                  <span style={{ fontSize: '0.7rem', color: '#7c3aed' }}>{fmt(edu.startDate)} – {fmt(edu.endDate)}</span>
+                  <span style={{ fontSize: '0.7rem', color: '#7c3aed' }}>{[fmt(edu.startDate), fmt(edu.endDate)].filter(Boolean).join(' – ')}</span>
                 </div>
                 <div style={{ fontSize: '0.75rem', color: '#701a75' }}>{edu.institution}</div>
               </div>
